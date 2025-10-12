@@ -1,0 +1,26 @@
+{
+  "name": "express-dir",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "test": "npx tsx --env-file=.env --test --experimental-test-module-mocks \"./src/**/*.test.ts\" --report-compact --no-warnings",
+    "test:file": "npx tsx --env-file=.env --test --experimental-test-module-mocks --report-compact --no-warnings",
+    "build": "tsc  --declaration --outdir ./dist -p ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.7.2",
+    "pm2": "^6.0.13",
+    "pm2-dev": "^5.4.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
