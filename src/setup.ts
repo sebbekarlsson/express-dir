@@ -16,18 +16,31 @@ const VALID_HANDLER_NAMES: string[] = [
   'del'
 ];
 
+const stripEnd = (value: string, ending: string): string => {
+  if (!value.endsWith(ending)) return value;
+  return value.slice(0, -ending.length);
+}
+
+const stripEnds = (value: string, endings: string[]): string => {
+  let result = value;
+  for (const ending of endings) {
+    result = stripEnd(result, ending);
+  }
+  return result;
+}
+
 const getRouterModule = async (entry: FileEntry, crumbs: string[]): Promise<RouterModule | null> => {
   if (entry.stat.isDirectory()) return null;
   if (!entry.path.endsWith('.ts') && !entry.path.endsWith('.js')) return null;
 
-  const uri = '/' + crumbs.map((crumb) => {
+  const uri = stripEnds('/' + crumbs.map((crumb) => {
     if (crumb === 'index.ts' || crumb === 'index.js') return '';
     if (crumb.startsWith('[') && crumb.endsWith(']')) {
       const paramName = crumb.replaceAll(/\[|\]/g, '').trim();
       return `:${paramName}`;
     }
     return crumb;
-  }).filter(it => it.length > 0).join('/');
+  }).filter(it => it.length > 0).join('/'), ['.ts', '.js']);
 
   const routerModule: RouterModule = {
     filepath: entry.path,
