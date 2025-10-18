@@ -8,6 +8,9 @@ const VALID_HANDLER_NAMES = [
     'head',
     'del'
 ];
+const HANDLER_NAME_REMAP = {
+    'del': 'delete'
+};
 const stripEnd = (value, ending) => {
     if (!value.endsWith(ending))
         return value;
@@ -62,7 +65,7 @@ const registerRoute = (app, mod, key, handler) => {
 };
 const registerModule = (app, mod) => {
     for (const [key, handler] of Object.entries(mod.handlers)) {
-        registerRoute(app, mod, key, handler);
+        registerRoute(app, mod, HANDLER_NAME_REMAP[key] || key, handler);
     }
 };
 export const setup = async (app, config) => {

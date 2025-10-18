@@ -16,6 +16,10 @@ const VALID_HANDLER_NAMES: string[] = [
   'del'
 ];
 
+const HANDLER_NAME_REMAP: Record<string, string> = {
+  'del': 'delete'
+}
+
 const stripEnd = (value: string, ending: string): string => {
   if (!value.endsWith(ending)) return value;
   return value.slice(0, -ending.length);
@@ -76,7 +80,7 @@ const registerRoute = (app: Express, mod: RouterModule, key: string, handler: Re
 
 const registerModule = (app: Express, mod: RouterModule) => {
   for (const [key, handler] of Object.entries(mod.handlers)) {
-    registerRoute(app, mod, key, handler);
+    registerRoute(app, mod, HANDLER_NAME_REMAP[key] || key, handler);
   }
 }
 
